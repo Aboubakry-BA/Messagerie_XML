@@ -1,0 +1,147 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- La racine du document, contenant les utilisateurs, groupes et messages -->
+    <xs:element name="messagerie">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- Définition d'un utilisateur avec un profil et des contacts -->
+                <xs:element name="utilisateur" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- Profil contenant le nom, numéro de téléphone, image de profil et
+                            statut de l'utilisateur -->
+                            <xs:element name="profil">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="nom" type="xs:string" />
+                                        <xs:element name="numeroDeTelephone" type="xs:string" />
+                                        <xs:element name="imageProfil" type="xs:anyURI" />
+                                        <xs:element name="statut" type="xs:string" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <!-- Contacts de l'utilisateur -->
+                            <xs:element name="contacts">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <!-- Un utilisateur peut avoir zéro ou plusieurs contacts -->
+                                        <xs:element name="contact" minOccurs="0"
+                                            maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <!-- Référence à l'ID de l'utilisateur qui est un
+                                                contact -->
+                                                <xs:attribute name="refIdUtilisateur"
+                                                    type="xs:IDREF" use="required" />
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <!-- Identifiant unique de l'utilisateur -->
+                        <xs:attribute name="idUtilisateur" type="xs:ID" use="required" />
+                    </xs:complexType>
+                </xs:element>
+                <!-- Définition d'un groupe avec un nom, des membres et des messages -->
+                <xs:element name="groupe" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- Nom du groupe -->
+                            <xs:element name="nomGroupe" type="xs:string" />
+                            <!-- Membres du groupe -->
+                            <xs:element name="membres">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <!-- Un groupe peut avoir zéro ou plusieurs membres -->
+                                        <xs:element name="membre" minOccurs="0"
+                                            maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <!-- Référence à l'ID de l'utilisateur qui est un
+                                                membre -->
+                                                <xs:attribute name="refIdUtilisateur"
+                                                    type="xs:IDREF" use="required" />
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <!-- Messages dans le groupe -->
+                            <xs:element name="messages" minOccurs="0" maxOccurs="1">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <!-- Un groupe peut avoir zéro ou plusieurs messages -->
+                                        <xs:element name="refIdMessage" minOccurs="0"
+                                            maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <!-- Référence à l'ID du message -->
+                                                <xs:attribute name="refId" type="xs:IDREF"
+                                                    use="required" />
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <!-- Identifiant unique du groupe -->
+                        <xs:attribute name="idGroupe" type="xs:ID" use="required" />
+                    </xs:complexType>
+                </xs:element>
+                <!-- Définition d'un message avec un contenu, un horodatage, un expéditeur et un
+                destinataire -->
+                <xs:element name="message" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- Contenu du message -->
+                            <xs:element name="contenu" type="xs:string" />
+                            <!-- Expéditeur du message -->
+                            <xs:element name="expediteur">
+                                <xs:complexType>
+                                    <xs:attribute name="refIdUtilisateur" type="xs:IDREF"
+                                        use="required" />
+                                </xs:complexType>
+                            </xs:element>
+                            <!-- Horodatage du message -->
+                            <xs:element name="horodatage" type="xs:dateTime" />
+                            <!-- Destinataire du message -->
+                            <xs:element name="destinataire">
+                                <xs:complexType>
+                                    <xs:attribute name="refIdUtilisateur" type="xs:IDREF" />
+                                    <xs:attribute name="refIdGroupe" type="xs:IDREF" />
+                                </xs:complexType>
+                            </xs:element>
+                            <!-- Citation d'un autre message, optionnel -->
+                            <xs:element name="citation" minOccurs="0">
+                                <xs:complexType>
+                                    <!-- Référence à l'ID du message cité -->
+                                    <xs:attribute name="refIdMessage" type="xs:IDREF" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <!-- Identifiant unique du message -->
+                        <xs:attribute name="idMessage" type="xs:ID" use="required" />
+                        <!-- Type de contenu du message (texte, audio, fichier) -->
+                        <xs:attribute name="typeContenu" use="required">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="texte" />
+                                    <xs:enumeration value="audio" />
+                                    <xs:enumeration value="fichier" />
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <!-- Statut du message (envoyé, reçu, lu) -->
+                        <xs:attribute name="statut" use="required">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="envoye" />
+                                    <xs:enumeration value="recu" />
+                                    <xs:enumeration value="lu" />
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,56 @@
+<!-- Structure pour stocker les données d'un service de messagerie en ligne de type WhatsApp -->
+<!ELEMENT messagerie (utilisateur+, groupe*, message*)>
+
+<!-- Définition d'un utilisateur avec un profil -->
+<!ELEMENT utilisateur (profil, contacts)>
+<!ATTLIST utilisateur idUtilisateur ID #REQUIRED>
+
+<!-- Informations de profil de l'utilisateur -->
+<!ELEMENT profil (nom, numeroDeTelephone, imageProfil, statut)>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT numeroDeTelephone (#PCDATA)>
+<!ELEMENT imageProfil (#PCDATA)>
+<!ELEMENT statut (#PCDATA)>
+
+<!-- Contacts de l'utilisateur -->
+<!ELEMENT contacts (contact*)>
+<!ELEMENT contact EMPTY>
+<!ATTLIST contact refIdUtilisateur IDREF #REQUIRED>
+
+<!-- Définition d'un groupe avec un nom, des membres et des messages -->
+<!ELEMENT groupe (nomGroupe, membres, messages*)>
+<!ATTLIST groupe idGroupe ID #REQUIRED>
+<!ELEMENT nomGroupe (#PCDATA)>
+<!ELEMENT membres (membre*)>
+<!ELEMENT membre EMPTY>
+<!ATTLIST membre refIdUtilisateur IDREF #REQUIRED>
+<!ELEMENT messages (refIdMessage*)>
+
+<!-- Référence à un message dans un groupe -->
+<!ELEMENT refIdMessage EMPTY>
+<!ATTLIST refIdMessage refId IDREF #REQUIRED>
+
+<!-- Définition d'un message avec un contenu, un horodatage, un expéditeur, un destinataire et un
+message cité optionnel -->
+<!ELEMENT message (contenu, expediteur, horodatage, destinataire, citation?)>
+<!ATTLIST message
+    idMessage ID #REQUIRED
+    typeContenu (texte | audio | fichier) #REQUIRED
+    statut (envoye | recu | lu) #REQUIRED>
+<!ELEMENT contenu (#PCDATA)>
+<!ELEMENT expediteur (#PCDATA)>
+
+<!-- Expéditeur du message -->
+<!ATTLIST expediteur refIdUtilisateur IDREF #REQUIRED>
+
+<!ELEMENT horodatage (#PCDATA)>
+<!ELEMENT destinataire (#PCDATA)>
+
+<!-- Destinataire du message -->
+<!ATTLIST destinataire
+    refIdUtilisateur IDREF #IMPLIED
+    refIdGroupe IDREF #IMPLIED>
+
+<!-- Citation d'un autre message -->
+<!ELEMENT citation EMPTY>
+<!ATTLIST citation refIdMessage IDREF #REQUIRED>

@@ -1,0 +1,229 @@
+/* Styles généraux */
+body {
+    font-family: cursive;
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    padding-top: 0;
+    margin-top: 25px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    border: 1px solid #333;
+    box-shadow: 2px 2px 2px 2px #888888;
+}
+
+h1,
+h2 {
+    color: #333;
+}
+
+/* Styles pour les sections */
+#utilisateurs,
+#groupes,
+#messages {
+    margin-bottom: 30px;
+}
+
+#utilisateurs>div,
+#groupes>div,
+#messages>div {
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+/* Styles pour les boutons */
+button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Styles pour les formulaires */
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Styles pour les listes */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    margin-bottom: 5px;
+}
+
+/* Styles spécifiques aux messages */
+#messages {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#messages>div {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#messages h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Styles pour le formulaire de message */
+#formulaire-message {
+    margin-top: 30px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    border: 1px solid #333;
+    box-shadow: 5px 5px 10px 5px #888888;
+}
+
+#formulaire-message h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+#formulaire-message label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Styles pour les messages cités */
+#messages ul li {
+    margin-bottom: 5px;
+    border-left: 2px solid #ccc;
+    padding-left: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f5f5f5;
+}
+
+.utilisateurs-table {
+    margin-bottom: 40px;
+}
+
+.groupes-table {
+    margin-bottom: 40px;
+}
+
+/* Styles pour les tableaux */
+.messages-table {
+    margin-bottom: 40px;
+}
+
+.messages-table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.messages-table th,
+.messages-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.messages-table th {
+    background-color: #f5f5f5;
+}
+
+/* Styles pour les formulaires */
+.form-container {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    border: 1px solid #333;
+    box-shadow: 5px 5px 10px 5px #888888;
+}
+
+.form-container h2 {
+    margin-top: 0;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#formulaire-message input[type="text"],
+.form-container input[type="text"],
+.form-container select,
+#formulaire-message select {
+    padding: 8px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+#formulaire-message input[type="text"],
+.form-container input[type="text"] {
+    width: 98%;
+}
+
+.form-container select,
+#formulaire-message select {
+    width: 100%;
+}
+
+.form-container button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.form-container button:hover {
+    background-color: #45a049;
+}
+
+.form-container button[type="submit"] {
+    background-color: #007bff;
+}
+
+.form-container button[type="submit"]:hover {
+    background-color: #0069d9;
+}

@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!-- <?xml version="1.0"?>
+<!DOCTYPE messagerie SYSTEM "messagerie.dtd">
+<messagerie> -->
+<messagerie xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="messagerie.xsd">
+    <utilisateur idUtilisateur="u1">
+        <!-- Utilisateur 1 : Aboubakry -->
+        <profil>
+            <nom>Aboubakry BA</nom>
+            <numeroDeTelephone>774954357</numeroDeTelephone>
+            <imageProfil>http://example.com/profiles/abou.jpg</imageProfil>
+            <statut>En ligne</statut>
+        </profil>
+        <contacts>
+            <!-- Aboubakry a Modou comme contact -->
+            <contact refIdUtilisateur="u2" />
+            <!-- Aboubakry a Samba comme contact -->
+            <contact refIdUtilisateur="u3" />
+        </contacts>
+    </utilisateur>
+
+    <utilisateur idUtilisateur="u2">
+        <!-- Utilisateur 2 : Modou -->
+        <profil>
+            <nom>Modou Fall</nom>
+            <numeroDeTelephone>776455746</numeroDeTelephone>
+            <imageProfil>http://example.com/profiles/modou.jpg</imageProfil>
+            <statut>Occup&#xE9;</statut>
+        </profil>
+        <contacts>
+            <!-- Modou a Aboubakry comme contact -->
+            <contact refIdUtilisateur="u1" />
+            <!-- Modou a Samba comme contact -->
+            <contact refIdUtilisateur="u3" />
+        </contacts>
+    </utilisateur>
+
+    <utilisateur idUtilisateur="u3">
+        <!-- Utilisateur 3 : Samba -->
+        <profil>
+            <nom>Samba Diao</nom>
+            <numeroDeTelephone>776951048</numeroDeTelephone>
+            <imageProfil>http://example.com/profiles/samba.jpg</imageProfil>
+            <statut>Hors ligne</statut>
+        </profil>
+        <contacts>
+            <!-- Samba a Aboubakry comme contact -->
+            <contact refIdUtilisateur="u1" />
+            <!-- Samba a Modou comme contact -->
+            <contact refIdUtilisateur="u2" />
+        </contacts>
+    </utilisateur>
+
+    <utilisateur idUtilisateur="u5">
+        <profil>
+            <nom>Mandicou KA</nom>
+            <numeroDeTelephone>777654321</numeroDeTelephone>
+            <imageProfil>http://example.com/profiles/mba.jpg </imageProfil>
+            <statut>Absent</statut>
+        </profil>
+        <contacts>
+            <contact refIdUtilisateur="u1" />
+            <contact refIdUtilisateur="u2" />
+            <contact refIdUtilisateur="u3" />
+        </contacts>
+    </utilisateur>
+
+    <groupe idGroupe="g1">
+        <!-- Groupe : DS I FALL: Projet XML -->
+        <nomGroupe>DS I FALL: Projet XML</nomGroupe>
+        <membres>
+            <!-- Aboubakry est membre du groupe -->
+            <membre refIdUtilisateur="u1" />
+            <!-- Modou est membre du groupe -->
+            <membre refIdUtilisateur="u2" />
+            <!-- Samba est membre du groupe -->
+            <membre refIdUtilisateur="u3" />
+        </membres>
+        <messages>
+            <!-- Référence au message m1 -->
+            <refIdMessage refId="m1" />
+            <!-- Référence au message m2 -->
+            <refIdMessage refId="m2" />
+        </messages>
+    </groupe>
+
+    <message idMessage="m1" typeContenu="texte" statut="envoye">
+        <!-- Message m1 -->
+        <contenu>Bonjour tout le monde!</contenu>
+        <expediteur refIdUtilisateur="u1" />
+        <horodatage>2023-07-02T12:00:00</horodatage>
+        <destinataire refIdGroupe="g1" />
+    </message>
+
+    <message idMessage="m2" typeContenu="texte" statut="recu">
+        <!-- Message m2 -->
+        <contenu>Salut Abou!</contenu>
+        <expediteur refIdUtilisateur="u2" />
+        <horodatage>2023-07-02T12:01:00</horodatage>
+        <destinataire refIdGroupe="g1" />
+    </message>
+
+    <message idMessage="m3" typeContenu="audio" statut="envoye">
+        <!-- Message m3 -->
+        <contenu>http://example.com/audio/greeting.mp3</contenu>
+        <expediteur refIdUtilisateur="u3" />
+        <horodatage>2023-07-02T12:02:00</horodatage>
+        <destinataire refIdUtilisateur="u1" />
+    </message>
+</messagerie>
