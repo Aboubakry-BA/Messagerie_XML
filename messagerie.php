@@ -28,8 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['modifierUtilisateur'])) {
         $idUtilisateur = $_POST['modifierUtilisateur'];
         $nouveauNom = $_POST['nouveauNom'];
+        $nouveauNumeroDeTelephone = $_POST['nouveauNumeroDeTelephone'];
+        $nouvelleImageProfil = $_POST['nouvelleImageProfil'];
+        $nouveauStatut = $_POST['nouveauStatut'];
 
-        modifierUtilisateur($xml, $idUtilisateur, $nouveauNom);
+        modifierUtilisateur($xml, $idUtilisateur, $nouveauNom, $nouveauNumeroDeTelephone, $nouvelleImageProfil, $nouveauStatut);
         $xml->asXML('messagerie.xml');
     } elseif (isset($_POST['ajouterGroupe'])) {
         $nomGroupe = $_POST['nomGroupe'];
@@ -45,8 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['modifierGroupe'])) {
         $idGroupe = $_POST['modifierGroupe'];
         $nouveauNomGroupe = $_POST['nouveauNomGroupe'];
+        //$nouveauxMembres = $_POST['nouveauxMembres'];
 
-        modifierGroupe($xml, $idGroupe, $nouveauNomGroupe);
+        modifierGroupe($xml, $idGroupe, $nouveauNomGroupe/*, $nouveauxMembres*/);
         $xml->asXML('messagerie.xml');
     } elseif (isset($_POST['ajouterMessage'])) {
         $contenu = $_POST['contenu'];
@@ -119,7 +123,7 @@ function afficherUtilisateurs($xml)
 
         echo '<td>';
         echo '<button title="Supprimer" onclick="supprimerUtilisateur(\'' . $utilisateur['idUtilisateur'] . '\')">❌</button>';
-        echo '<button title="Modifier" onclick="modifierUtilisateur(\'' . $utilisateur['idUtilisateur'] . '\', \'' . $utilisateur->profil->nom . '\')">✍️</button>';
+        echo '<button title="Modifier" onclick="modifierUtilisateur(\'' . $utilisateur['idUtilisateur'] . '\', \'' . $utilisateur->profil->nom . '\', \'' . $utilisateur->profil->numeroDeTelephone . '\', \'' . $utilisateur->profil->imageProfil . '\', \'' . $utilisateur->profil->statut . '\')">✍️</button>';
         echo '</td>';
 
         echo '</tr>';
@@ -273,7 +277,7 @@ function afficherMessages($xml)
     echo '<select name="citation" id="citation">';
     echo '<option value="">Aucune</option>';
     foreach ($xml->message as $message) {
-        echo '<option value="' .$message['idMessage'] . '">' . $message->contenu . '</option>';
+        echo '<option value="' . $message['idMessage'] . '">' . $message->contenu . '</option>';
     }
     echo '</select><br>';
 
@@ -368,23 +372,35 @@ function supprimerGroupe($xml, $idGroupe)
     }
 }
 
-// Fonction pour modifier le nom d'un utilisateur
-function modifierUtilisateur($xml, $idUtilisateur, $nouveauNom)
+// Fonction pour modifier les attributs d'un utilisateur
+function modifierUtilisateur($xml, $idUtilisateur, $nouveauNom, $nouveauNumeroDeTelephone, $nouvelleImageProfil, $nouveauStatut)
 {
     foreach ($xml->utilisateur as $utilisateur) {
         if ($utilisateur['idUtilisateur'] == $idUtilisateur) {
             $utilisateur->profil->nom = $nouveauNom;
+            $utilisateur->profil->numeroDeTelephone = $nouveauNumeroDeTelephone;
+            $utilisateur->profil->imageProfil = $nouvelleImageProfil;
+            $utilisateur->profil->statut = $nouveauStatut;
             break;
         }
     }
 }
 
-// Fonction pour modifier le nom d'un groupe
-function modifierGroupe($xml, $idGroupe, $nouveauNomGroupe)
+// Fonction pour modifier les attributs d'un groupe
+function modifierGroupe($xml, $idGroupe, $nouveauNomGroupe/*, $nouveauxMembres*/)
 {
     foreach ($xml->groupe as $groupe) {
         if ($groupe['idGroupe'] == $idGroupe) {
             $groupe->nomGroupe = $nouveauNomGroupe;
+
+            /*$groupe->membres = null;
+            $membresElem = $groupe->addChild('membres');
+
+            foreach ($nouveauxMembres as $membre) {
+                $membreElem = $membresElem->addChild('membre');
+                $membreElem->addAttribute('refIdUtilisateur', $membre);
+            }*/
+
             break;
         }
     }
@@ -479,12 +495,18 @@ function ajouterContact($utilisateur, $contactId)
             }
         }
 
-        function modifierUtilisateur(idUtilisateur, nom) {
+        function modifierUtilisateur(idUtilisateur, nom, numeroDeTelephone, imageProfil, statut) {
             var nouveauNom = prompt('Entrez le nouveau nom pour cet utilisateur :', nom);
+            var nouveauNumeroDeTelephone = prompt('Entrez le nouveau numéro de téléphone pour cet utilisateur :', numeroDeTelephone);
+            var nouvelleImageProfil = prompt('Entrez le nouveau nom d\'image de profil pour cet utilisateur :', imageProfil);
+            var nouveauStatut = prompt('Entrez le nouveau statut pour cet utilisateur :', statut);
 
             if (nouveauNom) {
                 document.getElementById('modifierUtilisateur').value = idUtilisateur;
                 document.getElementById('nouveauNom').value = nouveauNom;
+                document.getElementById('nouveauNumeroDeTelephone').value = nouveauNumeroDeTelephone;
+                document.getElementById('nouvelleImageProfil').value = nouvelleImageProfil;
+                document.getElementById('nouveauStatut').value = nouveauStatut;
                 document.getElementById('formulaire-modifier-utilisateur').submit();
             }
         }
@@ -496,12 +518,14 @@ function ajouterContact($utilisateur, $contactId)
             }
         }
 
-        function modifierGroupe(idGroupe, nomGroupe) {
+        function modifierGroupe(idGroupe, nomGroupe/*, membres*/) {
             var nouveauNomGroupe = prompt('Entrez le nouveau nom pour ce groupe :', nomGroupe);
+            //var nouveauxMembres = prompt('Entrez les nouveaux membres pour ce groupe (séparés par des virgules) :', membres);
 
             if (nouveauNomGroupe) {
                 document.getElementById('modifierGroupe').value = idGroupe;
                 document.getElementById('nouveauNomGroupe').value = nouveauNomGroupe;
+                //document.getElementById('nouveauxMembres').value = nouveauxMembres;
                 document.getElementById('formulaire-modifier-groupe').submit();
             }
         }
@@ -530,7 +554,10 @@ function ajouterContact($utilisateur, $contactId)
 
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" id="formulaire-modifier-utilisateur">
         <input type="hidden" name="modifierUtilisateur" id="modifierUtilisateur">
-        <input type="hidden" name="nouveauNom" id="nouveauNom">
+        <input type="hidden" name="nouveauNom" id="nouveauNom" placeholder="Nouveau nom d'utilisateur">
+        <input type="hidden" name="nouveauNumeroDeTelephone" id="nouveauNumeroDeTelephone" placeholder="Nouveau numéro de téléphone">
+        <input type="hidden" name="nouvelleImageProfil" id="nouvelleImageProfil" placeholder="Nouvelle image de profil">
+        <input type="hidden" name="nouveauStatut" id="nouveauStatut" placeholder="Nouveau statut">
     </form>
 
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" id="formulaire-supprimer-groupe">
@@ -539,7 +566,8 @@ function ajouterContact($utilisateur, $contactId)
 
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" id="formulaire-modifier-groupe">
         <input type="hidden" name="modifierGroupe" id="modifierGroupe">
-        <input type="hidden" name="nouveauNomGroupe" id="nouveauNomGroupe">
+        <input type="hidden" name="nouveauNomGroupe" id="nouveauNomGroupe" placeholder="Nouveau nom de groupe">
+        <!-- <input type="hidden" name="nouveauxMembres" id="nouveauxMembres" placeholder="Nouveaux membres"> -->
     </form>
 
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" id="formulaire-supprimer-message">
