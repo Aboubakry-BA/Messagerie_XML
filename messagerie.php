@@ -289,8 +289,7 @@ function afficherMessages($xml)
 // Fonction pour ajouter un nouvel utilisateur
 function ajouterUtilisateur($xml, $nom, $numeroDeTelephone, $imageProfil, $statut)
 {
-    //$selected_place = $xml->xpath('/messagerie/utilisateur['.count($xml->utilisateur).']');
-    $utilisateur = $xml->addChild('utilisateur');
+    $utilisateur = $xml[0]->addChild('utilisateur');
     $utilisateur->addAttribute('idUtilisateur', 'u' . (count($xml->utilisateur) + 1));
 
     $profil = $utilisateur->addChild('profil');
@@ -300,7 +299,8 @@ function ajouterUtilisateur($xml, $nom, $numeroDeTelephone, $imageProfil, $statu
     $profil->addChild('statut', $statut);
 
     $utilisateur->addChild('contacts');
-    //$selected_place[0]->insertAfter($utilisateur);
+    //$groupe = $xml->xpath('/messagerie/groupe')[0];
+    //$groupe->parentNode->insertBefore($utilisateur, $groupe);
 
     return $utilisateur;
 }
@@ -308,7 +308,7 @@ function ajouterUtilisateur($xml, $nom, $numeroDeTelephone, $imageProfil, $statu
 // Fonction pour ajouter un nouveau groupe
 function ajouterGroupe($xml, $nomGroupe, $membres)
 {
-    $groupe = $xml->addChild('groupe');
+    $groupe = $xml[0]->addChild('groupe');
     $groupe->addAttribute('idGroupe', 'g' . (count($xml->groupe) + 1));
     $groupe->addChild('nomGroupe', $nomGroupe);
 
@@ -325,7 +325,7 @@ function ajouterGroupe($xml, $nomGroupe, $membres)
 // Fonction pour ajouter un nouveau message
 function ajouterMessage($xml, $contenu, $expediteur, $horodatage, $destinataire, $typeContenu, $statut, $citation = null)
 {
-    $message = $xml->addChild('message');
+    $message = $xml[0]->addChild('message');
     $message->addAttribute('idMessage', 'm' . (count($xml->message) + 1));
     $message->addChild('contenu', $contenu);
     $message->addChild('expediteur')->addAttribute('refIdUtilisateur', $expediteur);
@@ -428,6 +428,10 @@ function ajouterContact($utilisateur, $contactId)
     <h1 style="text-align: center;text-decoration:underline">
         Service de messagerie en ligne
     </h1>
+
+    <?php
+    //var_dump($xml) 
+    ?>
 
     <?php
     afficherUtilisateurs($xml);
